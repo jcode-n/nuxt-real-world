@@ -3,7 +3,7 @@
 <!--  顶部导航栏  -->
     <nav class="navbar navbar-light">
       <div class="container">
-        <nuxt-link class="navbar-brand" to="/">conduit</nuxt-link>
+        <nuxt-link class="navbar-brand" to="/">real-world</nuxt-link>
         <ul class="nav navbar-nav pull-xs-right">
           <template v-if="user">
             <li class="nav-item">
