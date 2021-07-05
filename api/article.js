@@ -50,3 +50,24 @@ export const getComments = slug => {
     url: `/api/articles/${slug}/comments`
   })
 }
+
+// 发表评论
+export const postComment = ({ slug, comment }) => {
+  return instance({
+    method: 'POST',
+    url: `/api/articles/${slug}/comments`,
+    data: {
+      comment: {
+        body: comment
+      }
+    }
+  })
+}
+
+// 删除评论
+export const delComment = ({ slug, id }) => {
+  return instance({
+    method: 'DELETE',
+    url: `/api/articles/${slug}/comments/${id}`
+  })
+}

@@ -3,13 +3,17 @@
 
     <div class="col-xs-12 col-md-8 offset-md-2">
 
-      <form class="card comment-form">
+      <form class="card comment-form"
+            autocomplete="off"
+            @submit.prevent="postComment"
+      >
         <div class="card-block">
-          <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
+          <textarea class="form-control" v-model="comment"  placeholder="Write a comment..." rows="3"></textarea>
         </div>
         <div class="card-footer">
-          <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img"/>
-          <button class="btn btn-sm btn-primary">
+          <img :src="$store.state.user.image" class="comment-author-img"/>
+          <button class="btn btn-sm btn-primary" type="submit"
+          >
             Post Comment
           </button>
         </div>
@@ -39,6 +43,7 @@
             {{ item.author.username }}
           </nuxt-link>
           <span class="date-posted">{{ item.createdAt | date('MMM DD, YYYY') }}</span>
+          <i style="float: right; cursor: pointer" @click="delComment(item.id)">删除</i>
         </div>
       </div>
 
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-import { getComments } from "~/api/article"
+import { delComment, getComments, postComment } from '~/api/article'
 
 export default {
   name: "article-comments",
@@ -60,12 +65,37 @@ export default {
   },
   data () {
     return {
-      comments: []
+      comments: [],
+      comment: ''
     }
   },
-  async mounted () {
-    const { data } = await getComments(this.article.slug)
-    this.comments = data.comments
+  mounted () {
+    this.getComments()
+  },
+  methods: {
+    // 提交评论
+    async postComment () {
+      await postComment({
+        slug: this.article.slug,
+        comment: this.comment
+      })
+      this.comment = ''
+      await this.getComments()
+
+    },
+    // 获取评论
+    async getComments () {
+      const { data } = await getComments(this.article.slug)
+      this.comments = data.comments
+    },
+    // 删除评论
+    async delComment (id) {
+      await delComment({
+        slug: this.article.slug,
+        id
+      })
+      await this.getComments()
+    }
   }
 }
 </script>
