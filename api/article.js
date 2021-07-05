@@ -71,3 +71,65 @@ export const delComment = ({ slug, id }) => {
     url: `/api/articles/${slug}/comments/${id}`
   })
 }
+
+// 创作文章
+export const createArticle = article => {
+  return instance({
+    method: 'POST',
+    url: `/api/articles`,
+    data: {
+      article
+    }
+  })
+}
+
+// 关注文章
+export const followingArticle = username => {
+  return instance({
+    method: 'POST',
+    url: `/api/profiles/${username}/follow`
+  })
+}
+
+// 取消关注
+export const unFollowingArticle = username => {
+  return instance({
+    method: 'DELETE',
+    url: `/api/profiles/${username}/follow`
+  })
+}
+
+// 喜欢文章
+export const favoriteArticle = slug => {
+  return instance({
+    method: 'POST',
+    url: `/api/articles/${slug}/favorite`
+  })
+}
+
+// 不喜欢文章
+export const unFavoriteArticle = slug => {
+  return instance({
+    method: 'DELETE',
+    url: `/api/articles/${slug}/favorite`
+  })
+}
+
+// 删除文章
+export const delArticle = slug => {
+  return instance({
+    method: 'DELETE',
+    url: `/api/articles/${slug}`
+  })
+}
+
+// 编辑文章
+export const updateArticle = ({ slug, article }) => {
+  return instance({
+    method: 'PUT',
+    url: `/api/articles/${slug}`,
+    data: {
+      article
+    }
+  })
+}
